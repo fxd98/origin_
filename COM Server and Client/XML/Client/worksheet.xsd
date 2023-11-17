@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is the XML schema definition for origin worksheet -->
+<xsd:schema xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+    targetNamespace = "http://www.originlab.com"
+    elementFormDefault = "qualified">
+   <!-- enum type definition -->
+   <xsd:simpleType name="Type">
+       <xsd:restriction base="xsd:NMTOKEN">
+           <xsd:enumeration value="X"/>
+           <xsd:enumeration value="Y"/>
+           <xsd:enumeration value="Z"/>
+           <xsd:enumeration value="X Error"/>
+           <xsd:enumeration value="Y Error"/>
+           <xsd:enumeration value="Label"/>
+           <xsd:enumeration value="Disregard"/>
+       </xsd:restriction>
+   </xsd:simpleType>
+   
+   <xsd:simpleType name="Format">
+       <xsd:restriction base="xsd:NMTOKEN">
+           <xsd:enumeration value="Numeric"/>
+           <xsd:enumeration value="Text"/>
+           <xsd:enumeration value="Time"/>
+           <xsd:enumeration value="Date"/>
+           <xsd:enumeration value="Month"/>
+           <xsd:enumeration value="Day of Week"/>
+           <xsd:enumeration value="Text & Numeric"/>
+       </xsd:restriction>
+   </xsd:simpleType>
+   
+   <xsd:simpleType name="SubFormat">
+       <xsd:restriction base="xsd:NMTOKEN">
+           <xsd:enumeration value="Decimal:1000"/>
+           <xsd:enumeration value="Scientific:1E3"/>
+           <xsd:enumeration value="Engineering:1k"/>
+           <xsd:enumeration value="Decimal:1,000"/>
+       </xsd:restriction>
+   </xsd:simpleType>   
+
+   <xsd:simpleType name="InternalDataType">
+	   <xsd:restriction base="xsd:NMTOKEN">
+           <xsd:enumeration value="float64"/>
+           <xsd:enumeration value="float32"/>
+           <xsd:enumeration value="int16"/>
+           <xsd:enumeration value="int32"/>
+	   <xsd:enumeration value="char"/>
+	   <xsd:enumeration value="text"/>
+           <xsd:enumeration value="mixed"/>
+           <xsd:enumeration value="byte"/>
+	   <xsd:enumeration value="ushort"/>
+	   <xsd:enumeration value="ulong"/>
+       </xsd:restriction>
+   </xsd:simpleType> 
+   <!-- columnInfo type -->
+   <xsd:complexType name="ColumnInfo">
+       <xsd:element name="Dataset" type="bin.base64" use="required"/>
+       <xsd:attribute name="Name" type="string" use="required"/>
+       <xsd:attribute name="Label" type="string" use="required"/>
+       <xsd:attribute name="Type" type="Type" use="required"/>
+       <xsd:attribute name="Format" type="Format" use="required"/>
+       <xsd:attribute name="SubFormat" type="SubFormatType" use="required"/>
+       <xsd:attribute name="DigitMode" type="string" use="required"/>
+       <xsd:attribute name="NumRows" type="int" use="required"/>
+       <xsd:attribute name="InternalDataType" type="InternalDataType"/>
+   </xsd:complexType>
+   <!-- worksheetInfo type-->
+   <xsd:complexType name="WorksheetInfo">
+       <xsd:sequence>
+           <xsd:element name="Column" type="columnInfo" maxOccurs="*"/>
+       </xsd:sequence>
+       <xsd:attribute name="Label" type="string" use="required"/>
+       <xsd:attribute name="Name" type="string" use="required"/>
+       <xsd:attribute name="NumCols" type="int" use="required"/>
+   </xsd:complexType>
+   
+   <xsd:element name="Worksheet" type="WorksheetInfo" maxOccurs="1"/>
+</xsd:schema> 

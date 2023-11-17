@@ -1,0 +1,5 @@
+Treatments	Sex	Response	Error
+Lithium	M	2.3	1.6
+Lithium	F	3.1	0.9
+Desipramine	M	3.8	2
+Desipramine	F	4.3	1.1

@@ -1,0 +1,11 @@
+Day	Date	Station	Station Name	Conditions	Temperature	Pressure
+Mon	21	B166	Sterling	Rain	66	766
+Mon	21	A163	Wilmott	Cloudy	61	761
+Tue	22	B166	Sterling	Rain	66	766
+Tue	22	A163	Wilmott	Rain	67	768
+Wed	23	B166	Sterling	Overcast	61	762
+Wed	23	A163	Wilmott	Cloudy	64	766
+Thu	24	B166	Sterling	Cloudy	67	768
+Thu	24	A163	Wilmott	Partly Sunny	64	766
+Fri	25	B166	Sterling	Sunny	68	769
+Fri	25	A163	Wilmott	Sunny	68	770

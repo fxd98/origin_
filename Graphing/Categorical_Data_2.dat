@@ -1,0 +1,25 @@
+Age	Recovery	Gender	Drug
+20	11	Male	Drug A
+23	12	Female	Drug A
+22	13	Female	Drug B
+23	11	Male	Drug B
+21	12	Male	Placebo
+23	14	Female	Placebo
+36	20	Male	Drug A
+32	19	Female	Drug A
+34	18	Female	Drug B
+34	21	Male	Drug B
+36	22	Male	Placebo
+35	23	Female	Placebo
+45	29	Male	Drug A
+44	30	Female	Drug A
+44	32	Female	Drug B
+43	31	Male	Drug B
+44	35	Male	Placebo
+45	36	Female	Placebo
+57	38	Male	Drug A
+60	39	Female	Drug A
+60	42	Female	Drug B
+59	41	Male	Drug B
+60	46	Male	Placebo
+58	45	Female	Placebo

@@ -1,0 +1,8 @@
+Mass	Stiffness	Stiffness	Stiffness
+m	k	k	k
+diagonal	-1st diagonal	diagonal	1st diagonal
+1	-1	2	-1
+2	-1	2	-1
+2	-1	2	-1
+2	-1	2	-1
+1		1	

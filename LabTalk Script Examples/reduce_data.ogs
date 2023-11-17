@@ -1,0 +1,82 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Filename:	reduce_data.OGS
+// Creation:	ER 06/16/07
+// Purpose:	This example demonstrates the following:
+//		1. Import an ASCII data file
+//		2. Reduce data by replacing each group with average or cumulative sum
+//      3. Plot raw and reduced data as a group plot
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+[Help]
+	Reduce data by replacing groups with average or cumulative sum
+	%1=method, 0=average, 1=cumulative sum
+
+[Main]
+	// If user passed no argument, type messsage with prompt on how to run
+	if(macro.NARG < 1)
+	{
+		type "Usage:\r\n reduce_data 0; replace using average\r\n reduce_data 1; replace using cumulative sum";
+		return;
+	}
+	int nMethod = %1;
+
+	// Create new book
+	newbook;
+	// Import data file by suppressing leading zeroes in file and turn off sparklines
+	string fname$ = system.path.program$ + "Samples\Signal Processing\Sunspot.dat";
+	impasc options.Miscellaneous.LeadingZeros:=1 options.Sparklines:=0;
+
+	// The data file has a Month column that repeats 1, 2, 3....12
+	// We will reduce the data to yearly data by grouping and averaging or summing months
+	
+	// Add two new cols for result output
+	wks.addcol();
+	wks.col$(wks.ncols).type = 4; // set type to x
+	range rYearReduced = $(wks.ncols);
+	rYearReduced[L]$ = "Year Reduced";
+	wks.addcol();
+	range rSpotsReduced = $(wks.ncols);
+	if(0 == nMethod)
+		rSpotsReduced[L]$ = "Sunspot Averaged";
+	else
+		rSpotsReduced[L]$ = "Sunspot Cumulative";
+
+	// Find all rows in which the 2nd month col has the number 12
+	vfind ix:=2 value:=12;
+	range rIndex = $(wks.ncols);
+	
+	// Loop over all row indices found and reduce data
+	range rYearRaw = 1;
+	stats rIndex;
+	int nGroups = stats.n;
+	for(int iGroup = 1; iGroup <= nGroups; iGroup++)
+	{
+		int nRowEnd = rIndex[iGroup];
+		int nRowStart = nRowEnd - 11;
+		range rSpotsRaw = 3[$(nRowStart):$(nRowEnd)];
+		stats rSpotsRaw;
+		// Write to output cols
+		rYearReduced[$(iGroup)]=rYearRaw[$(nRowStart)];
+		if(0 == nMethod)
+			rSpotsReduced[$(iGroup)]=stats.mean;
+		else
+			rSpotsReduced[$(iGroup)]=stats.sum;			
+	}
+	
+	// Delete index column - do not need it any more
+	delete wcol(wks.ncols);
+	
+	// Turn on sparklines
+	sparklines sel:=0 c1:=3;
+	
+	// Make a graph of raw and reduced sunspot data
+	range rSpotsRaw = 3;
+	plotxy i:=rSpotsRaw plot:=200;
+	//Get the output layer range;
+	range ll = plogxy.ogl;
+	plotxy i:=rSpotsReduced plot:=200 ogl:=ll;
+	// Set curve color
+	set rSpotsRaw -c 4;
+	set rSpotsReduced -c 2;
+	// Group the plots
+	layer -g;

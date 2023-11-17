@@ -1,0 +1,112 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Filename:	embed_graphs.OGS
+// Creation:	LV 06/12/07
+// Purpose:		This example demonstrates the following:
+//				1. Import multiple data files into separate books
+//				2. Create a multi-layer (panel) graph for each
+//				3. Put each workbook and associated graph into new subfolder in Project Explorer
+//				4. Embed links to graphs in summary sheet at root level
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Set PE folder to root
+pe_cd /;
+
+// Create a new book to be summary 
+newbook name:=Summary result:=ResultSummary$;
+
+// Define range for col 1 to put file name
+range rvar = 1;
+
+//Define StringArray to store file names
+StringArray sa;
+
+// Point to where the data files are
+string path$ = system.path.program$ + "Samples\Curve Fitting\";
+// Find all files with wild card
+findfiles ext:="Step*.dat";
+int numFiles = fname.GetNumTokens(LF);
+// Loop over all files
+for(int ifile = 1; ifile <= numFiles; ifile++)
+{
+	string filepath$, file$;
+	
+	// Get next file name
+	filepath$=fname.gettoken(ifile,LF)$;
+	// Parse out just file name without path and without extension
+	file$ = filepath.gettoken(filepath.getnumtokens(\),\)$;
+	file$ = file.gettoken(1,.)$;
+	
+	// Make a new PE subfolder and set it active
+	pe_mkdir file$ cd:=1;
+	
+	// Add a new book and import data file
+	// Filter for file exists in data folder
+	newbook result:=bookname$;
+	impfile fname:=filepath$ filtername:="step.oif" location:=data;
+	
+	//string str$ = page.label$;
+	//string strPageLN$ = str.GetToken(1,CRLF)$;
+	//strPageLN$=;
+	//could have also gotten filename from page label	
+	//Add file name to String Array
+	sa.Add(file$);
+	
+	//Now plot the data, 
+	for(int ncols = 1; ncols <= bookname$!wks.ncols; ncols+=2)
+	{
+		if(ncols == 1)
+			plotxy i:=(wcol(ncols),wcol(ncols+1)) plot:=200;
+		else
+			plotxy i:= [bookname$]1!(wcol(ncols),wcol(ncols+1)) plot:=200;
+		
+	}
+	//loop through all layers to set color
+	for(int ii = 1; ii <= bookname$!wks.ncols/2; ii++)
+	{
+		page.active=ii;
+		set %C -c ii;  //just increment color
+	}
+	
+	//Arrange layers on graph as panel 
+	layarrange row:=bookname$!wks.ncols/4 col:=bookname$!wks.ncols/8 left:=10 right:=10 top:=10 bottom:=10;
+	
+	graphname$ = %H;
+	// Set PE folder to previous level and go to next file
+	pe_cd ..;
+	
+	range r = 2[$(ifile):$(ifile)]; 
+	//following code will put graphs into second row instead of second column 
+//	range r = $(ifile)[2:2];
+	//if(exist(wcol(ifile)) != 1 )
+		//wks.addcol();
+	//wcol(ifile)[1]$ = file$;
+	insertGraph gname:=graphname$ embed:=0 cell:=r;
+	
+
+}
+
+//The following code now updates the Summary sheet
+
+//Copy String Array to column 1	
+sa.CopyTo(rvar);
+
+//Set column header from variables saved on import	
+//wuserlabel userpara:="Data Source";
+//wuserlabel userpara:="Station ID";
+//wuserlabel userpara:="Sensor Type";
+//wuserlabel userpara:="Temperature";
+
+col(1)[D1]$=[%(bookname$)]!page.info.USER.VARIABLES.DATASOURCE$;
+col(1)[D2]$=[%(bookname$)]!page.info.USER.VARIABLES.STATIONID$;
+col(1)[D3]$=[%(bookname$)]!page.info.USER.VARIABLES.SENSORTYPE$;
+col(1)[D4]$=[%(bookname$)]!page.info.USER.VARIABLES.TEMPERATURE$;
+
+col(2)[D1]$ = "Double-click";
+col(2)[D2]$ = "each graph";
+col(2)[D3]$ = "to open";
+
+
+wcolwidth irng:=1 width:=10;
+wrowheight irng:=[1:12] height:=15;
+
+win -z;  // maximize the active window, summary book

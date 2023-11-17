@@ -1,0 +1,58 @@
+//////////////////////////////////////////////////////////
+// Importing sample DSC data located in
+// exe_path\Samples\Spectroscopy\DSC\Data\
+// into a new book with each data file loaded into
+// a separate sheet
+//
+// written by CP Yang 6/5/2007
+//////////////////////////////////////////////////////////
+
+[Help]
+load one more files with dsc extension into a workbook
+%1=number of files to load, 0 to load all
+
+// load into new book which is active upon return from function
+[Main]
+int nmax = 0;// load all
+if(macro.NARG >0)
+	nmax = %1;
+
+//%D holds the current cd path
+string fns, path$=system.path.program$ + "Samples\Spectroscopy\DSC\Data\"; 
+findfiles fname:=fns$ ext:="*.dsc"; // findFiles will default to get from path$
+
+if(fns.GetLength() < 1)
+{
+	type "No files found";
+	return 0;
+}
+
+string bkName$;
+//newbook s:=0 result:=bkName$;
+newbook s:=0;
+
+//findFiles will pack multiple files separated by \r\n, or CRLF
+int n = fns.GetNumTokens(CRLF);
+//n=;
+if(nmax > 0 && n> nmax) n = nmax;
+
+for(int ii = 1; ii <=n; ii++)
+{
+	fname$=fns.GetToken(ii, CRLF)$;
+	// you can run.section without filename and THIS ogs will be assumed
+	run.section(,LoadOneDSCFile);
+}
+bkName$ = %H;
+type "DSC data loaded into " + bkName$;
+return 1;
+
+[LoadOneDSCFile]
+// assume file name is fname$
+// path is in path$
+int nSaveOldResultsLogOutput = @XFR; 
+@XFR=0; // prevent output to ResultsLog from XF
+//fname$=;	
+newsheet;
+impfile;
+@XFR=nSaveOldResultsLogOutput; // restore original setting
+

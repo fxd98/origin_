@@ -1,0 +1,18 @@
+MU1 = [5 10];
+SIGMA1 = [3 0; 0 2];
+MU2 = [0 3];
+SIGMA2 = [2 0; 0 1.5];
+rng(1); % For reproducibility
+Xraw = [mvnrnd(MU1,SIGMA1,1000);
+mvnrnd(MU2,SIGMA2,1000)];
+options = statset('Display','final');
+gm = fitgmdist(Xraw,2,'Options',options);
+gmPDF = @(x,y)pdf(gm,[x y]);
+figure;
+scatter(Xraw(:,1),Xraw(:,2),10,'.')
+scatter(Xraw(:,1),Xraw(:,2),10,'.')
+[X,Y]=meshgrid([-6:0.2:12],[-2:0.2:16]);
+Xr=reshape(X,[91*91,1]);
+Yr=reshape(Y,[91*91,1]);
+Z=feval(gmPDF,Xr,Yr);
+clusterX=cluster(gm,Xraw);

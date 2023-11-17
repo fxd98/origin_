@@ -1,0 +1,71 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Filename:	2d_bin_fit.OGS
+// Creation:	ER 05/29/08
+// Purpose:		This example demonstrates the following:
+//				1. Use a pre-existing OPJ-based Analysis Template
+//				2. Import data files one after another
+//				3. Get updated result and place in new result summary book
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//test to make sure OriginPro is installed
+if (system.product&1 != 1) 
+{
+	type "This feature is only available in OriginPro 8.";
+	break;
+}
+
+// Open pre-existing Analysis Template OPJ
+string filepath$ = system.path.program$ + "Samples\Curve Fitting\2D Bin and Fit.opj";
+doc -o %(filepath$);
+
+// Create new book to save results from analysis of multiple data files
+newbook name:="Results Summary" sheet:=0;
+string result$ = %h;
+newsheet cols:=6 xy:="LYYYYY" name:="Fit Results";
+// Define ranges for all cols and give names to the columns
+range r1=1, r2=2, r3=3, r4=4, r5=5, r6=6;
+r1[L]$ = "File Name";
+r2[L]$ = "x center";
+r3[L]$ = "x width";
+r4[L]$ = "y center";
+r5[L]$ = "y width";
+r6[L]$ = "Amplitude";
+
+// Find data files with specific wildcard
+string path$ = system.path.program$ + "Samples\Statistics";
+findfiles ext:="2D Binning*.dat";
+int numFiles = fname.GetNumTokens(LF);
+
+// Loop over files
+for(int ifile = 1; ifile <=numFiles; ifile++)
+{
+	string filepath$;	
+	
+	// Get next file name
+	filepath$=fname.gettoken(ifile,LF)$;
+	
+	// Import file into 1st sheet in Book1
+	win -a "Book1";
+	page.active=1;
+	impasc filepath$ -t <sheet>;
+	
+	// Place file name in 1st col of summary sheet
+	r1[ifile]$ = %(page.info.system.import.filename$);
+	
+	// Wait for auto update to finish
+	run -p au;
+	
+	// Get the fit results and put desired values in summary sheet
+	getnlr tr:=mytree iw:=[MatrixFit1]1!;
+	r2[ifile] = mytree.xc;	
+	r3[ifile] = mytree.w1;
+	r4[ifile] = mytree.yc;
+	r5[ifile] = mytree.w2;
+	r6[ifile] = mytree.A;
+}
+
+// Make the summary book active
+win - a %(result$);
+wcolwidth irng:= col(1) width:=10;
+
+// end of script file

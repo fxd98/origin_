@@ -1,0 +1,49 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Filename:	summarize_data.OGS
+// Creation:	ER 06/15/07
+// Purpose:		This example demonstrates the following:
+//				1. Import an ASCII data file with custom settings
+//				2. Compute row stats on entier data
+//				3. Transpose worksheet
+//				4. Create summary sheet with sparklines and stats
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+[Main]
+
+	// Create new book
+	newbook;
+	// Import data file 
+	string fname$ = system.path.program$ + "Samples\Graphing\US Mean Temperature.dat";
+	impasc options.Sparklines:=0 options.Names.FNameToBk:=0;
+	
+	// Delete cols 2 and 3 which contain lat and long data that we are not interested in, for this example
+	delete col(2);
+	delete col(2);
+	// Also delete last col that has mean - this will be generated when adding sparlines
+	delete wcol(wks.ncols);
+	
+	
+	// Transpose worksheet including long name
+	wtranspose exchange:=1 type:=1;
+	// Push row 1 into long name
+	wrow2label longname:=1;
+	// Set col 2 as type Y and col 1 as type L
+	wks.col2.Type = 1;
+	wks.col1.Type = 5;
+	
+	// Point to all y cols
+	range rRawCols = $(page.active)!2:$(wks.ncols);
+	// Add new sheet to contain summary
+	newsheet name:="Data Summary";
+	// Insert sparklines with long name and stats into new sheet
+	insertSparklines irng:=rRawCols orng:=col(1)[1] name:=1 c2:=4 c3:=5 endpts:=0 yfrom:=0 yto:=100 xfrom:=0 xto:=13;
+	// Set row height and width of the first two rows
+	wrowheight irng:=![1]:[0] height:=2;
+	wcolwidth irng:=2 width:=20;
+	wcolwidth irng:=1 width:=25;
+	// Add long names
+	col(1)[L]$ = "City";
+	col(2)[L]$ = "Sparkline";
+	col(3)[L]$ = "Min. Temp.";
+	col(4)[L]$ = "Max. Temp.";

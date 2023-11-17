@@ -1,0 +1,166 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Filename:	autofit.OGS
+// Creation:	ER 06/21/07
+// Purpose:	This example demonstrates the following:
+//			1. Use pre-defined analysis template (OGW)
+//			2. Import multiple ASCII files using pre-defined Import Wizard filter (OIF)
+//			3. Place data from each file in a separate PE subfolder
+//			4. Wait for auto update of analysis for each file and get results
+//			5. Add summary sheet at root level with result table and result graphs
+////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+// The data files are all in \Samples\Curve Fitting\ subfolder
+// There is an import filter for the files in the same folder
+// The OGW and OTP files are also located in same folder
+[Main]
+
+// Turn of Message Output Control
+int nMOC = @NOI;
+@NOI = 0;
+
+	int nFiles = 0;
+	if(macro.nArg > 0)
+		nFiles = %1;
+// Set PE folder to root
+pe_cd /;
+
+// Create a new book to hold results
+string ResultBook$;
+newbook name:="Autofit Results" result:=ResultBook$ sheet:=0;
+// Add a sheet for numeric summary
+newsheet name:="Summary Table" col:=8 xy:="LYYYYYYY" label:="File|Station ID|Sensor|Concentration|Adj. R-Square|Param. a|Param. b|Param. c";
+range rFileName = [ResultBook$]1!1;
+range rStationID = [ResultBook$]1!2;
+range rSensor = [ResultBook$]1!3;
+range rConcentration = [ResultBook$]1!4;
+range rAdjRSqr = [ResultBook$]1!5;
+range rParama = [ResultBook$]1!6;
+range rParamb = [ResultBook$]1!7;
+range rParamc = [ResultBook$]1!8;
+// Add another sheet for well plate graph links
+string GraphSheet$;
+newsheet name:="Summary Graphs" out:=GraphSheet$ col:=8 xy:="L";
+
+// Point to where the data files are
+string path$ = system.path.program$ + "Samples\Curve Fitting\";
+// Find all files with wild card
+findfiles ext:=step*.dat;
+
+// Point to OGW analysis template file
+string ogw$;
+ogw$=path$+"autofit.ogw";
+
+int numFiles = fname.GetNumTokens(CRLF);
+if(nFiles > 0) numFiles = nFiles; // overridden by calling from LT
+int numData = 8;
+// Loop over all files
+for(int ifile = 1; ifile <= numFiles; ifile++)
+{
+	string filepath$, file$;
+	// Get next file name
+	filepath$=fname.gettoken(ifile,CRLF)$;
+	// Parse out just file name without path and without extension
+	file$ = filepath.GetFileName(1)$;
+
+	// Make a new PE subfolder and set it active
+	pe_mkdir file$ cd:=1;
+
+	// Open a new instance of the analysis template OGW
+	doc -a %(ogw$);
+	string DataBook$ = %h;
+	
+	// Make the "Data" sheet active and import data file
+	page.active$="Data";
+	type "Processing ($(ifile) of $(numFiles)): " + filepath$;
+	///------ Folger 05/07/09 IMPORT_FILTER_OF_AUTOFIT_OGW_IS_SELF_CONTAINED_AFTER_80
+	//impfile fname:=filepath$ filtername:=step.oif location:=0;
+	impfile fname:=filepath$ location:=3;
+	///------ End IMPORT_FILTER_OF_AUTOFIT_OGW_IS_SELF_CONTAINED_AFTER_80
+
+	// Trigger update and get results
+	type -mb 1;/// YuI 01/15/08 QA70-12975 NEED_TO_OVERRIDE_REMINDER_BOX_FOR_AUTOFIT_SAMPLE
+	run -p au;
+	type -me;/// YuI 01/15/08 QA70-12975 NEED_TO_OVERRIDE_REMINDER_BOX_FOR_AUTOFIT_SAMPLE
+	sec -p 0.2;	// make sure %H is correct after autoupdate
+	page.active$ = FitNL1;  //Report sheet in the page
+	Tree mytree;// for receiving results
+	getresults mytree;
+
+	// Write to results book - there are 8 datasets per file
+	for(int idata = 1; idata <= numData; idata++)
+	{
+		range [DataBook$] rData = 1!wcol(idata*2);// 1 is Data sheet
+		range [DataBook$] rFit = 5!wcol(idata*2); // 5 is FitNLCurves1 sheet
+		string Sensor$ = rData[L]$;
+		string Concentration$ = rData[C]$;
+		
+		// Place file name and sensor, concentration info to result sheet
+		int irow = (ifile - 1) * numData + idata;
+		rFileName[irow]$ = file$;
+		rSensor[irow]$ = Sensor$;
+		rConcentration[irow]$ = Concentration$;
+
+		// Place Station ID value from variable extracted from file header
+		rStationID[irow]$ = page.info.user.variables.stationid$;
+		
+		// Place fit results from the mytree tree that contains the current fit result
+		rAdjRSqr[irow] = mytree.summary.r$(idata).Stats_AdjRSquare;
+		rParama[irow] = mytree.summary.r$(idata).a_value;
+		rParamb[irow] = mytree.summary.r$(idata).b_value;
+		rParamc[irow] = mytree.summary.r$(idata).c_value;
+
+		// Create graph of data and fit curve using template
+		%a = system.path.program$ + "Samples\Curve Fitting\autofit.otp";
+		win -t plot "%a";
+		range rGraphLayer = [%h]1!;
+		range rGraphPage = [%h];
+		// Plot data and update text label with R-Square value, and set page label
+		plotxy i:=rFit o:=rGraphLayer legend:=0 plot:=200;
+		plotxy i:=rData o:=rGraphLayer legend:=0 plot:=201;
+		ArSQr.text$ = $(rAdjRSqr[irow], %5.3f);
+		rGraphPage.LongName$ = file$ + " - " + Concentration$ + " - " +Sensor$;
+
+		// Embed graph to result book graph summary sheet
+		range rGraphCol = [ResultBook$]2!wcol(idata);
+		range rGraphCell = [ResultBook$]2!wcol(idata)[$(2*ifile):$(2*ifile)];
+		insertGraph gname:=%h embed:=0 resizecell:=1 label:=0 axes:=1 cell:=rGraphCell;
+		win -ch 1;// hide the graph after it is inserted
+		
+		// give each graph a title
+		rGraphCol[2*ifile-1]$=rGraphPage.LongName$;		
+	}
+
+	// Set PE folder root level and go to next file
+	pe_cd /;
+}
+
+// Done with all files - go to result book
+win -a %(ResultBook$);
+
+// Make summary table sheet active, turn on sparklines
+page.active = 1;
+sparklines sel:=0;
+wks.labels(LS);//wlabelshow lname:=1 units:=0 comment:=0 sparkline:=1;
+
+// Color every other group of 8 rows, which corresponds to one file
+for(int ifile = 1; ifile <= numFiles; ifile += 2)
+{
+	int irow = ifile * numData +1;
+	range rRow = [ResultBook$]1![$(irow)]:[$(irow + numData-1)];
+	wcellcolor irng:=rRow color:=color(Green);
+}
+
+// Make summary graph sheet active
+page.active = 2;
+wks.labels(); //wlabelshow lname:=0 units:=0 comment:=0 sparkline:=0;
+// set all columns width
+for(int ii = 1; ii <= wks.nCols; ii++)
+{
+	range cc = wcol(ii);
+	cc.width = 18;
+}
+win -z;	// maximize the active window, summary book
+// end
+
+// Rollback Message Output Control
+@NOI = nMOC;

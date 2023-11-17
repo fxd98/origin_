@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////
+// Filename:	ave_curves.OGS
+// Creation:	CP Yang 6/6/2007
+// Purpose:		This example shows how to average multiple XY data that are
+//				monotonic in X but do not necessarily share X values.
+//				The sample data used is in
+//				OriginPath\Samples\Spectroscopy\DSC\Data folder
+//
+//				1. Load the data to different worksheets of the same book
+//				2. use avecurves XF to average the A(X)B(Y) of all the sheets.
+//				3. put the result into a new sheet
+//				4. Plot the original into one graph and the averaged data into another graph
+//////////////////////////////////////////////////////////
+
+// Load the sample data to separated sheets, using existing 
+// loadDSC.ogs
+string LoadDSCogsPath$=system.path.program$ + "Samples\LabTalk Script Examples\loaddsc.ogs";
+%A=LoadDSCogsPath$;
+if(!run.section(%A, Main, 0))
+	break 1;
+// Data should be loaded now into active book
+string dscBook$=%H;
+// plot all the data A(X), B(Y) first
+plotxy [dscBook$](1:end)!(1,2) plot:=200;
+
+// Perform average on all the sheets data using interp average method with linear interpolation
+avecurves iy:=[dscBook$](1:end)!(1,2) rd:=[<input>]<new name:="Averaged Data">! method:=ave interp:=linear;
+// plot the averaged as well to a new graph
+plotxy [dscBook$]"Averaged Data"!(1,2) plot:=200 ogl:=[<new>]<new>!;

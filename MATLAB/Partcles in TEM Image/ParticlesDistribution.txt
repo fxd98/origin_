@@ -1,0 +1,4 @@
+particle = imread("E:\particle.png");
+figure;imshow(particle);
+[centers, redii] = imfindcircles(particle, [8 18], 'objectpolarity', 'dark', 'sensitivity', 0.96);
+h = viscircles(centers, redii, 'EdgeColor', 'b', 'LineWidth', 0.5);

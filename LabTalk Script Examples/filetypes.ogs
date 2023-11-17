@@ -1,0 +1,76 @@
+//////////////////////////////////////////////////////////
+// find all files in the Origin path and count each types
+// and sort decending to list
+// written by CP Yang 6/13/2007
+//////////////////////////////////////////////////////////
+
+[Help]
+	print out the number of each types of files in the Origin directory
+
+[Main]
+//code to get all files from Origin's program path
+//and count each file types by extension
+string exePath$ = system.path.program$;
+type "The following type of files are found in the Origin folder";
+type exePath$;
+string results$;
+findFiles path:=exePath$ fname:=results$;
+int nn = results.GetNumTokens(CRLF);
+type "A Total of $(nn) files found";
+
+// add each new type into array
+StringArray saExt, saFiles;
+// fill a temp dataset with 100 cells of1, as first adding will count as 1
+dataset na=data(1,1,200);// array to keep count, start with 200 possible types of files
+
+for(int ii = 1; ii <= nn; ii++)
+{
+  string strFilename$ = results.GetToken(ii, CRLF)$;
+  saFiles.Add(strFilename$); // save all the file names as well
+  if(strFilename.Find(.) < 1 ) // skip those without file extension
+  	continue;
+  string strExt$ = strFilename.GetFileExt()$;
+  int nPos = saExt.Find(strExt$);  
+  if(nPos < 1) // not found
+      saExt.Add(strExt$);
+  else
+  {
+      na[nPos] += 1;   
+      type -q "$(ii): $(nPos) --> $(na[nPos])";
+  }
+}
+// set the count array size
+na.SetSize(saExt.GetSize());
+
+// put the resutls into a temp 3 cols worksheet
+newbook s:=0 result:=bkn$ hidden:=1;//create a hidden book without any sheet
+newsheet b:=bkn$ c:=3 labels:="Count|Extension|File Names";// add a new sheet with 3 cols
+range rExts = [bkn$]!col(2);
+range rCounts = [bkn$]!col(1);
+range rFileNames = [bkn$]!col(3);
+// copy the data from out local arrays to the newly created temp wks
+saExt.CopyTo(rExts);
+rCounts = na;
+saFiles.CopyTo(rFileNames);
+
+// sort the 1st two columns using col(1)(the counts) as key
+wsort w:=[bkn$]! b:=1 c1:=1 c2:=2;
+
+
+// bring the values back to the arrays here
+saExt.SetSize(0);
+saExt.Append(rExts);
+na = rCounts;
+
+// we are now down with the temp wks, so we can delete it
+win -cd %(bkn$);
+
+// now print the results in the StringArray sa and numeric array na
+for(int ii = 1; ii <= saExt.GetSize(); ii++)
+{
+  string strExt$ = saExt.GetAt(ii)$;
+  type "$(ii): %(strExt$) $(na[ii])";
+}
+
+
+	

@@ -1,0 +1,47 @@
+////////////////////////////////////
+// 1. Import some sample DSC data by LoadDSC.ogs
+// 2. move newly imported data book into a subfolder
+// 3. plot all of them into the same graph
+//
+// This example illustrates
+// a. Project Explorer functions to move book and create folder
+// b. Range notation to choose columns from different sheets to make plot
+// 
+// written by CP Yang 6/5/2007
+////////////////////////////////////
+[Help]
+	Calll loadDSC.ogs to load dsc files and then plot them in the same graph
+%1=number of files to load, 0 to load all
+
+[Main]
+
+if(macro.NARG<1)
+{
+	type "Usage:
+plotdsc 1; to plot 1st file
+plotdsc 0; to plot all files";
+	return;
+}
+int nfiles = %1;
+
+
+string LoadDSCogsPath$=system.path.program$ + "Samples\LabTalk Script Examples\LoadDSC.ogs";
+%A=LoadDSCogsPath$;
+if(!run.section(%A, Main, nfiles))
+	return 0;
+// load success, data should be loaded into active book
+string dscBook$=%H;
+if(dscBook.GetLength() < 1 )
+{
+	type "new book " + dscBook$ + " is not valid";
+	return 0;
+}
+
+//move book into /RawData subfolder
+string RawDataFolderPath$;
+pe_mkdir f:=RawData p:=strRawDataFolderPath$;
+pe_move dscBook$ strRawDataFolderPath$;// move into subfolder
+
+plotxy [dscBook$](1:end)!(1,2) plot:=200;
+
+return 1;// for success

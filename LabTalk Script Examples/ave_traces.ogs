@@ -1,0 +1,34 @@
+/////////////////////////////////////////////////////////////////////
+// Averaging multicurve data with non-monotonic abscissa located in
+// exe_path\Samples\Data Manipulation\not_monotonic_multicurve.dat
+//
+// written by Cloud Guan 6/6/2007
+/////////////////////////////////////////////////////////////////////
+
+[Help]
+average multicurve data with non-monotonic abscissa
+
+// Load the data into a new book and do interpolated averaging.
+[Main]
+	
+//test to make sure OriginPro is installed
+if (system.product&1 != 1) 
+{
+	type "This feature is only available in OriginPro 8.";
+	break;
+}	
+	
+// Put the path of sample data into fname string variable which is the default used by impASC
+fname$ = system.path.program$ + "Samples\Data Manipulation\not_monotonic_multicurve.dat";
+
+newbook;// Create a new book
+impASC;// import the file using all defaults
+string bkn$ = %H; // save the book name as plotting will create new window to change %H
+plotxy [bkn$]!((1,2), (3,4), (5,6), (7,8)) plot:=200;
+
+// use each two columns as a curve and do averaging and put the averaging result into a new sheet named "Average Result"
+// use interpolating option because the abscissae of these two curves are not same
+// use segment option to check order because the abscissae of these two curves are not monotonic
+avecurves [bkn$]!((1,2), (3,4), (5,6), (7,8)) method:=ave avex:=trace interp:=linear rd:=[<input>]<new name:="Average Result">!;
+// plot the averaged as well to a new graph
+plotxy [bkn$]"Average Result"!(1,2) plot:=200 ogl:=[<new>]<new>!;

@@ -1,0 +1,111 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Filename:	fft_peaks.OGS
+// Creation:	ER 06/08/07
+// Purpose:		This example demonstrates the following:
+//				1. Import multiple data files into separate books
+//				2. Perform FFT on each file
+//				3. Save location of FFT peak to a summary sheet
+//				4. Plot the peak locations as a function of variable from file name
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Set PE folder to root
+pe_cd /;
+
+// Create a new book to hold result from FFT analysis
+newbook result:=ResultBook$;
+// Define ranges for cols 1 and 2 to save results later
+range rx = 1, rp = 2;
+// Set long name and units
+rx[L]$ = "X";
+rx[U]$ = "mm";
+rp[L]$ = "Peak Frequency";
+rp[U]$ = "kHz";
+
+// Point to where the data files are
+string path$ = system.path.program$ + "Samples\Signal Processing\";
+// Find all files with wild card
+findfiles ext:="TR*.dat";
+int numFiles = fname.GetNumTokens(LF);
+
+// Loop over all files
+int nFirst = 1;
+for(int ifile = 1; ifile <= numFiles; ifile++)
+{
+	string filepath$, file$;
+	
+	// Get next file name
+	filepath$=fname.gettoken(ifile,LF)$;
+	// Parse out just file name without path and without extension
+	file$ = filepath.gettoken(filepath.getnumtokens(\),\)$;
+	file$ = file.gettoken(1,.)$;
+	
+	// Make a new PE subfolder and set it active
+	pe_mkdir file$ cd:=1;
+	
+	// Add a new book and import data file
+	// Filter for file exists in data folder
+	// The filter does some post processing of the data by creating
+	// frequency column and setting values etc.
+	newbook;
+	impfile fname:=filepath$ filtername:="TR Data Files.oif" location:=0;
+	
+	// Now perform FFT on the imported data
+	// If file being processed is first file, pop up dialog so user can customize settings
+	// For later files, use same settings as first file, with <last used> theme
+	if(nFirst)
+	{
+		nFirst = 0;
+		fft1 (2,3) -d;
+	}
+	else
+		fft1 (2,3) -t "last used";
+	
+	// Set FFT result sheet active - this should be sheet2
+	page.active = 2;
+	
+	// User may not have checked box to create Magnitude column
+	// So just create a new column and compute Magnitude to find peak location
+	wks.addcol();
+	int nmag = wks.ncols;
+	// Col 2 should contain complex data, so use that to compute magnitude
+	wcol(nmag) = abs(col(2));
+	
+	// Find max peak location in Magnitude column using limit command
+	limit wcol(nmag);
+	// Save associated frequency value from column 1 to result sheet
+	rp[ifile] = col(1)[$(limit.imax)];
+	// Delete magnitude column
+	delete wcol(nmag);
+	
+	// Parse file name to get X value
+	string X$ = file.gettoken(2,'R')$;
+	X$=X.gettoken(1,'M')$;
+	// Save X value to result sheet
+	rx[ifile] = %(X$);
+	
+	// Set PE folder to previous level and go to next file
+	pe_cd ..;
+}
+
+// Done with all files, so make plot
+// Make result book active
+win -a %(ResultBook$);
+plotxy (1,2);
+
+// The plot will display a linear relationship between the 
+// X value extracted from file name and the Peak Frequency value.
+// Now perform linear regression
+fitLR a:=intercept b:=slope aerr:=InterceptErr berr:=SlopeErr oy:=[Book1]1!(1,2);
+
+// Label Y column so Legend displays well
+range raY = [Book1]1!2;
+raY[C]$ = Linear Fit of Peak Frequency;
+
+// Add fit as red line
+plotxy iy:=[Book1]1!(1,2) plot:=line color:=color(red) ogl:=1;
+
+// Update Legend to include results
+string str$ = legend.text$;
+str$ = %(str$)%(CRLF)Slope : $(slope,*4)±$(slopeerr,*4), Intercept: $(Intercept,*4)±$(InterceptErr,*4);
+legend.text$ = str$;
+legend.x = (x1 + x2) / 2; // Center

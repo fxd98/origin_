@@ -1,0 +1,169 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Filename:	extract_plot.OGS
+// Creation:	ER 06/06/07
+// Purpose:	This example demonstrates the following:
+//			1. Import an ASCII data file
+//			2. Separate out the data into multiple sheets using conditions on data columns
+//			3. Create a grouped plot from multiple sheets
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//test to make sure OriginPro is installed
+if (system.product&1 != 1) 
+{
+	type "This feature is only available in OriginPro 8.";
+	break;
+}
+
+// Import data file into a new book
+newbook;
+//string DataBook$ = newbook.result$;
+fname$ = system.path.program$ + "Samples\Data Manipulation\Magnetization.dat";
+impasc options.FileStruct.Delimiter:=1;	// specify Delimiter as Comma to import
+string DataBook$ = %H; // save the book name
+
+// In this data file, magnetization is measured as a function of temperature and field.
+// There are multiple regions of constant/flat temperature and for each such region,
+// there is a "magnetic field up" part and a "magnetic field down" part.
+// The script below separates out the data into up and down fields for each constant
+// temperature region and then a plot is made from all the extracted sheets.
+// 
+// When dialog pops up asking for a cut off number on counts, enter 100
+//
+
+// Point to raw temperature column of the data
+range RawTemp = 2;
+
+// Create a new, temporary book for intermediate computation
+newbook;
+string TempBook$ = newbook.result$;
+
+// Round off raw temperature and write to 1st col of temporary book, sheet 1
+range RoundedTemp = [%(TempBook$)]1!1;
+RoundedTemp = nint(RawTemp);
+
+// Perform discrete frequency count on rounded off temperature
+discfreqs irng:=RoundedTemp -r 0;
+
+// Discrete frequency output sheet is active now, should be sheet 2
+// Sort worksheet descending on counts column 2, to find most frequent values
+wsort descending:=1 bycol:=2;
+
+// Bring up dialog asking user where to cut off on the counts
+int nCutoff = 100;
+getnumber "Cut off" nCutoff "Enter threshold for cut off on counts:";
+if( 0 == nCutoff ) break;
+
+// Extract most frequent values, with user specified cut off, to a new sheet
+string condition$ = "col(2) > $(nCutOff)";
+wxt iw:=[%(TempBook$)]2! test:=condition$ ow:=[%(TempBook$)]3!;
+
+// Sheet3 with extracted output should be active now
+// Sort the worksheet ascending on column 1 and copy the temperature values to a temporary dataset
+// Since discfreqs makes output temperature data become text, column format needs change to make subsequent statistics work
+wks.col1.format=7;
+wks.col1.format=1;
+wsort bycol:=1;
+FlatTemp = col(1);
+
+// Delete the temporary book as it is no longer needed
+win -cd %(TempBook$);
+
+// At this point, the loose dataset FlatTemp has all the flat temperature values from the raw data
+
+// Make data book active
+win -a %(DataBook$);
+
+// Loop over various "flat" temperature values stored in temporary dataset FlatTemp
+stats FlatTemp;
+int nTemps = stats.n;
+for(int iTemp = 1; iTemp <= nTemps; iTemp++)
+{
+   // Read temperature from the temporary dataset FlatTemp
+   double dTemp = FlatTemp[iTemp];
+
+   // Build condition string for extracting rows with flat temperature
+   // Add a margin of +/- 10% to flat value
+  condition$ = "RawTemp > $(dTemp - 0.1) AND RawTemp < $(dTemp + 0.1)";
+  type Processing temperature range: %(condition$);
+   // Extract data from raw data sheet to new sheet
+   wxt test:=condition$ ow:=<new>;
+ 
+   // Do stats on Temp column of extracted sheet to get mean temperature value etc
+   stats 2;
+
+   // Now we further split this sheet into two sheets for field-up and field-down
+   // We do this by running limit command on the magnetic field column, col3
+   limit col(3);   // Find time stamp at this minimum
+   double tmin = col(1)[$(limit.imin)];
+
+   // Use this time stamp to separate out the sheet into two
+   // First remember current layer number
+   int nLayer = page.active;
+   
+   // Build condition and separate out sheet using extract
+   // Do field down first
+   condition$ = "col(1) < $(tmin)";
+   wxt test:=condition$ ow:=<new>;
+   // Turn on sparklines
+   sparklines sel:=0;
+   // Name sheet using mean temperature and field direction
+   layer.name$ = "$(stats.mean,%6.2f)" + " K - Field Down";
+   // Put sheet name into comments of every column
+   string comment$ = layer.name$;
+   for(int ic = 1; ic <= wks.ncols; ic++)
+      wcol(ic)[C]$ = comment$;
+   
+   // Switch back to extracted sheet with all data and do field up
+   page.active = nLayer;
+   condition$ = "col(1) >= $(tmin)";
+   wxt test:=condition$ ow:=<new>;
+   // Turn on sparklines
+   sparklines sel:=0;
+   // Name sheet using mean temperature and field direction
+   layer.name$ = "$(stats.mean,%6.2f)" + " K - Field Up";
+   // Put sheet name into comments of every column
+   string comment$ = layer.name$;
+   for(int ic = 1; ic <= wks.ncols; ic++)
+      wcol(ic)[C]$ = comment$;
+   
+   // Now that original extracted sheet has been further divided, delete it
+   page.active = nLayer;
+   ///------ Folger 10/16/2018 ORG-19193-P1 DEL_WKS_KEEP_DATA_SHOULD_RENAME_DATASET_NAME_FOR_EXCEL_LIKE_WKS
+   //layer -d;
+   layer -dd;
+   ///------ End DEL_WKS_KEEP_DATA_SHOULD_RENAME_DATASET_NAME_FOR_EXCEL_LIKE_WKS
+   
+   // Set raw sheet active
+   page.active = 1;
+   
+   // Loop back to process remaining flat temperatures
+}
+// Delete temp dataset FlatTemp
+delete FlatTemp;
+
+
+// Now plot the data from all extracted layers
+
+// Save book name
+string book$ = page.name$;
+
+// Start a new graph page and get name
+win -t p;    // can use some custom template here
+string graph$ = page.name$;
+
+// Make book active again
+win -a %(book$);
+
+// Loop over all sheets in book 
+doc -e LW
+{     
+   // Skip first sheet which is raw data
+   if( 1 != page.active)
+   {
+      plotxy i:=(3,4) plot:=200 o:=[%(graph$)]1!;
+   }
+}
+// Make graph active and group the plots
+win -a %(graph$);
+layer -g;
+

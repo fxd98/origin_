@@ -1,0 +1,71 @@
+/*
+Detection of aberrant points, which leave the mean value too much. For simplicity,
+we assume that a point is an aberrant point when it leaves the mean value in a
+specified group greater than "dm" times of standard deviation, where dm is a
+parameter given by the user. The sample data is located in
+exe_path\Samples\Statistics\diameter.dat
+*/
+
+[Help]
+Detect aberrant points based on the standard deviations
+%1=the statistics window size, default is 12
+%2=the allowed times of the standard deviation, default is 2
+
+[Main]
+// Load the sample data to a new book
+// Put the path of sample data into fname string variable which is the default used by impASC
+fname$ = system.path.program$ + "Samples\Statistics\diameter.dat";
+//newbook result:=bkn$;
+newbook;
+impASC;
+bkn$ = %H;
+
+int nw;
+double dm;
+// define the statistics window size
+if (macro.NARG>0)
+	nw = %1;
+else
+	nw = 12;
+// define the allowed times of the standard deviation
+if (macro.NARG>1)
+	dm = %2;
+else
+	dm = 2;
+
+double NAN =0/0;
+int nSize = wks.maxRows;
+if (nw > nSize)
+	nw = nSize;
+wks.col2.label$ = "Reasonable Data";
+
+int ii, jj;
+// Seperate the column
+loop (ii, 1, nSize/nw)
+{
+	// Calculate the standard deviations
+    stats col(1)[$(ii*nw-nw+1):$(ii*nw)];
+    loop (jj, ii*nw-nw+1, ii*nw)
+    {
+    	// If the data leave the mean greater than "dm" times of standard deviation, mark it with NAN
+        if (abs(col(1)[$(jj)]-stats.mean) > dm*stats.sd)
+            col(2)[$(jj)] = NAN;
+        else
+        	col(2)[$(jj)] = col(1)[$(jj)];
+    }
+}
+// The last group may have less points
+ii = nSize/nw;
+stats col(1)[$(ii*nw+1):$(nSize)];
+loop (jj, ii*nw+1, nSize)
+{
+	if (abs(col(1)[$(jj)]-stats.mean) > dm*stats.sd)
+		col(2)[$(jj)] = NAN;
+	else
+		col(2)[$(jj)] = col(1)[$(jj)];
+}
+
+// Find the rows containing aberrant points
+newsheet bkn$ "Aberrant Points";
+wks.col1.label$ = "Row Number of the Aberrant Points";
+vfind [bkn$]1!col(2) NAN [bkn$]"Aberrant Points"!col(1);

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<style>
+		.centered {
+			display: table;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body>
+<!-- Begin content-->
+
+<h1 class="centered">Peak Fitting Report</h1>
+<br>
+<table class="origin-table centered">
+	<tr><th>Dataset</th><td>{{cell://FitPeaks1!Input.IDTR1.IDTC2}}</td><th>Date</th><td>{{cell://FitPeaks1!Notes.Time}}</td></tr>
+	<tr><th>Baseline Mode</th><td>{{cell://FitPeaks1!Notes.BaselineMode}}</td><th></th><td></td></tr>
+	<tr><th>Chi<sup>2</sup></th><td>{{cell://FitPeaks1!RegStats.C1.ReducedChiSq}}</td><th>Num Points</th><td>{{cell://FitPeaks1!RegStats.C1.N}}</td></tr>
+	<tr><th>Adj. r<sup>2</sup></th><td>{{cell://FitPeaks1!RegStats.C1.AdjRSq}}</td><th>Degrees of Freedom</th><td>{{cell://FitPeaks1!RegStats.C1.DOF}}</td></tr>
+</table>
+<br>
+<div class="centered">
+	<img alt="{{graph://FitLine}}" width="600">
+</div>
+<br>
+<div class="centered">
+	{{table://PeakProperties1!}}
+</div>
+
+<!-- End content-->
+</body>
+</html>

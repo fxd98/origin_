@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+   <head>
+       	<script>
+        function UpdateLink()
+		{
+			var pro = document.getElementById('pro')
+			var update = document.getElementById('update')
+			update.setAttribute('onclick', 'window.location.href = \'labtalk://ty -b You select ' + pro.value + '\'')
+		}
+	  </script>
+      <title>Title of the document</title>
+   </head>
+   <body>
+      <select id="pro" onchange="UpdateLink()">
+        <option value="Drug A">Drug A</option>
+        <option value="Drug B">Drug B</option>
+        <option value="Placebo">Placebo</option>
+      <select>
+      <button id="update">ClickMe</button>
+      <script>
+      UpdateLink()
+      </script>
+   </body>
+</html>

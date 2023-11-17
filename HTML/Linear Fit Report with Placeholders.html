@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<style>
+
+	html, body {
+		margin: 1rem;
+		padding: 0;
+		background-color: #ffffff;
+		font-family: "Segoe UI", "Lucida Sans Unicode", sans-serif;
+		font-size: 1rem;
+	}
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	td {
+		text-align: left;
+		vertical-align: top;
+	}
+
+	fieldset {
+		border: 1px solid #666666;
+		margin-right: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	legend {
+		font-weight: bold;
+		color: #0000a0;
+	}
+
+	.right {
+		text-align: right;
+	}
+	</style>
+</head>
+<body>
+
+<table>
+	<tbody>
+		<tr>
+			<td style="width: 50%;"><h1>Linear Fit Report</h1></td>
+			<td class="right" style="width: 50%;"><img src="https://d2mvzyuse3lwjc.cloudfront.net/images/header_logo.png" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Origin Project:  <em>{{str://%X%G.%@Q}}</em></h2>
+
+<table>
+	<tbody>
+		<tr>
+			<td style="width: 50%;" rowspan="2">
+
+				<fieldset>
+					<legend>File Information</legend>
+					<table style="width: auto;">
+						<tbody>
+							<tr>
+								<th>File Name: </th>
+								<td>{{File.Name}}</td>
+							</tr>
+							<tr>
+								<th>File Date: </th>
+								<td>{{File.Date}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</fieldset>
+
+				<fieldset>
+					<legend>Fitting Information</legend>
+					<table style="width: auto;">
+						<tbody>
+							<tr>
+								<th>Intercept</th>
+								<td>{{Intercept.Value}} &#177; {{Intercept.Error}}</td>
+							</tr>
+							<tr>
+								<th>Slope</th>
+								<td>{{Slope.Value}} &#177; {{Slope.Error}}</td>
+							</tr>
+							<tr>
+								<th>Pearson's r</th>
+								<td>{{RegStats.Correlation}}</td>
+							</tr>
+							<tr>
+								<th>R-Square (COD)</th>
+								<td>{{RegStats.RSqCOD}}</td>
+							</tr>
+							<tr>
+								<th>Adj. R-Square</th>
+								<td>{{RegStats.AdjRSq}}</td>
+							</tr>
+							</tbody>
+					</table>
+				</fieldset>
+
+			</td>
+			<td style="width: 50%;">
+				<img alt="{{FittedCurve}}" width=400>
+				</td>
+		</tr>
+		<tr>
+			<td style="width: 50%;">
+				<img alt="{{ResidualGraph}}" width=400>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+</body>
+</html>

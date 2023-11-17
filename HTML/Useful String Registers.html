@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		table, th, td {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+<h2>Useful String Expression</h2>
+<p>The <strong><em>str</em></strong> notation can take any string expression.</p>
+<p>The <strong><em>var</em></strong> notation only supports a single variable.</p>
+<table style="width:100%">
+	<tr>
+		<th>Meaning</th>
+		<th>Display</th>
+		<th>Syntax</th>
+	</tr>
+	<tr>
+		<td>Current Projcet File Path</th>
+		<td>{{str://%X%G.%@Q}}</th>
+		<td>{\{str://%X%G.%@Q}}</th>
+	<tr>
+		<td>Current Login User Name</th>
+		<td>{{str://%@S}}</th>
+		<td>{\{str://%@S}}</th>
+	</tr>
+	<tr>
+		<td>Current PE Folder</th>
+		<td>{{str://%@F}}</th>
+		<td>{\{str://%@F}}</th>
+	</tr>
+	<tr>
+		<td>Current Program Folder</th>
+		<td>{{var://system.path.program$}}</th>
+		<td>{\{var://system.path.program$}}</th>
+	</tr>
+	<tr>
+		<td>Current Date</th>
+		<td>{{str://$(@D,D10)}}</th>
+		<td>{\{str://$(@D,D10)}}</th>
+	</tr>
+	<tr>
+		<td>File Date (Default)</th>
+		<td>{{var://page.info.SYSTEM.IMPORT.FILEDATE$}}</th>
+		<td>{\{var://page.info.SYSTEM.IMPORT.FILEDATE$}}</th>
+	</tr>
+	<tr>
+		<td>File Date (Custom)</th>
+		<td>{{str://$(page.info.SYSTEM.IMPORT.FILEDATE, D10)}}</th>
+		<td>{\{str://$(page.info.SYSTEM.IMPORT.FILEDATE, D10)}}</th>
+	</tr>
+	<tr>
+		<td>File Name</th>
+		<td>{{var://page.info.SYSTEM.IMPORT.FILENAME$}}</th>
+		<td>{\{var://page.info.SYSTEM.IMPORT.FILENAME$}}</th>
+	</tr>
+</table>
+</body>
+</html>
+	

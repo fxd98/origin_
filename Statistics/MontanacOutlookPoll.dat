@@ -1,0 +1,215 @@
+The data contain the outcomes for two items in the Montana Economic Outlook Poll conducted in May 1992, with accompanying demographics for 209 out of 418 poll respondents. The items are whether the respondent feels his/her financial status is worse, the same, or better than a year ago, and whether the respondent views the state economic outlook as better over the next year. Respondents are classified by age, income , political orientation, and area of residence in the state. 
+Data Source: http://lib.stat.cmu.edu/DASL/Datafiles/montanadat.html
+
+
+ID	Age	Sex	Yearly Income	Political Orientation	Area	Financial Status	State Economic Outlook
+
+1	55 and over	Male	20-35$K	Independent	Western	Same	Better
+2	35-54	Male	Over $35K	Republican	Western	Better	Better
+3	Under 35	Male	20-35$K	--	Western	Same	Better
+4	55 and over	Female	20-35$K	Democrat	Western	Worse	Not Better
+5	55 and over	Female	Over $35K	Republican	Southeastern	Same	--
+6	Under 35	Male	20-35$K	Democrat	Southeastern	Better	--
+7	55 and over	Female	Under $20K	Republican	Southeastern	Worse	Better
+8	Under 35	Male	Under $20K	Republican	Northeastern	Worse	Not Better
+9	55 and over	Female	--	Republican	Southeastern	Same	Not Better
+10	Under 35	Male	--	Democrat	Western	Same	Better
+11	35-54	Female	20-35$K	Republican	Western	Same	--
+12	55 and over	Female	Under $20K	Republican	Northeastern	Same	Not Better
+13	35-54	Male	20-35$K	Democrat	Southeastern	Better	Not Better
+14	55 and over	Male	--	Republican	Northeastern	Same	Not Better
+15	55 and over	Male	Over $35K	Republican	Southeastern	Better	Better
+16	55 and over	Male	Over $35K	Democrat	Southeastern	Worse	Better
+17	Under 35	Female	20-35$K	Democrat	Southeastern	Better	--
+18	55 and over	Female	20-35$K	Democrat	Southeastern	Same	Better
+19	55 and over	Female	20-35$K	Republican	Southeastern	Worse	Not Better
+20	35-54	Male	Over $35K	Republican	Southeastern	Better	Better
+21	Under 35	Female	Over $35K	Democrat	Western	Better	Not Better
+22	55 and over	Male	Under $20K	Independent	Western	Same	Not Better
+23	Under 35	Female	20-35$K	Republican	Western	Better	--
+24	55 and over	Male	20-35$K	Independent	Western	Same	Better
+25	35-54	Male	Over $35K	Democrat	Western	Better	Not Better
+26	Under 35	Male	Under $20K	Republican	Western	Worse	Better
+27	55 and over	Male	20-35$K	Democrat	Western	Better	Not Better
+28	55 and over	Female	--	Democrat	Southeastern	Same	Not Better
+29	35-54	Female	20-35$K	Independent	Southeastern	Same	Not Better
+30	35-54	Female	20-35$K	Republican	Southeastern	Worse	Not Better
+31	35-54	Male	20-35$K	Republican	Western	Same	Better
+32	Under 35	Male	20-35$K	--	Western	Better	Not Better
+33	Under 35	Female	20-35$K	Republican	Southeastern	Better	Better
+34	35-54	Female	Over $35K	Democrat	Southeastern	Same	Not Better
+35	Under 35	Male	Under $20K	Democrat	Southeastern	Same	Better
+36	55 and over	Male	20-35$K	Democrat	Southeastern	Same	--
+37	35-54	Male	Over $35K	Republican	Southeastern	Better	Not Better
+38	55 and over	Male	Under $20K	Republican	Southeastern	Better	Not Better
+39	Under 35	Male	Under $20K	Republican	Southeastern	Worse	Not Better
+40	Under 35	Male	Under $20K	Democrat	Western	Worse	Better
+41	55 and over	Female	Over $35K	Democrat	Northeastern	Worse	Not Better
+42	35-54	Female	20-35$K	Democrat	Western	Worse	Not Better
+43	Under 35	Male	20-35$K	Republican	Western	Same	Better
+44	Under 35	Female	Over $35K	Democrat	Western	Same	Not Better
+45	Under 35	Female	Over $35K	Republican	Western	Better	Better
+46	35-54	Male	Over $35K	Independent	Western	Better	Better
+47	Under 35	Female	20-35$K	Republican	Northeastern	Better	Not Better
+48	35-54	Male	Over $35K	Democrat	Western	Worse	Not Better
+49	Under 35	Female	--	Democrat	Western	Better	Better
+50	Under 35	Female	20-35$K	Democrat	Southeastern	Better	--
+51	35-54	Female	--	Republican	Southeastern	Better	--
+52	Under 35	Female	20-35$K	Independent	Western	Worse	Not Better
+53	35-54	Female	Under $20K	Democrat	Western	Worse	Not Better
+54	55 and over	Female	--	Democrat	Western	Same	Better
+55	Under 35	Male	Over $35K	Democrat	Western	Worse	Not Better
+56	35-54	Female	20-35$K	Democrat	Western	Better	Better
+57	Under 35	Male	Over $35K	Independent	Western	Worse	Better
+58	55 and over	Male	20-35$K	Democrat	Northeastern	Worse	Not Better
+59	55 and over	Male	20-35$K	Independent	Northeastern	Worse	Not Better
+60	Under 35	Female	Under $20K	Democrat	Western	Worse	Not Better
+61	35-54	Male	Over $35K	Independent	Northeastern	Same	Not Better
+62	55 and over	Male	20-35$K	Democrat	Southeastern	Same	Not Better
+63	55 and over	Female	Under $20K	Democrat	Southeastern	Same	Better
+64	55 and over	Female	Under $20K	Democrat	Southeastern	Worse	Not Better
+65	55 and over	Female	--	Independent	Southeastern	Same	--
+66	55 and over	Female	Under $20K	Republican	Southeastern	Better	--
+67	Under 35	Female	Over $35K	Democrat	Western	Better	Better
+68	35-54	Male	Over $35K	Republican	Northeastern	Better	Not Better
+69	55 and over	Female	20-35$K	Republican	Southeastern	Same	Better
+70	35-54	Male	Over $35K	Republican	Southeastern	Worse	Not Better
+71	55 and over	Female	20-35$K	Independent	Northeastern	Same	Not Better
+72	55 and over	Female	20-35$K	Democrat	Western	Better	Better
+73	55 and over	Male	20-35$K	Republican	Southeastern	Better	Better
+74	35-54	Male	Over $35K	Independent	Northeastern	Worse	Not Better
+75	55 and over	Male	Over $35K	Republican	Northeastern	Same	Not Better
+76	35-54	Female	Over $35K	Republican	Northeastern	Better	Not Better
+77	Under 35	Male	Under $20K	Democrat	Northeastern	Worse	Not Better
+78	55 and over	Female	--	--	Western	Worse	Not Better
+79	Under 35	Female	Under $20K	--	Western	Worse	Not Better
+80	35-54	Female	20-35$K	Republican	Western	Better	Not Better
+81	35-54	Female	Over $35K	Democrat	Western	Same	Not Better
+82	55 and over	Male	Over $35K	Republican	Northeastern	Worse	Not Better
+83	55 and over	Female	Under $20K	Independent	Southeastern	Same	Not Better
+84	55 and over	Female	--	Independent	Western	Same	Not Better
+85	Under 35	Male	20-35$K	Republican	Southeastern	Same	--
+86	Under 35	Female	20-35$K	Democrat	Northeastern	Worse	Not Better
+87	Under 35	Female	--	--	Western	Same	--
+88	35-54	Female	Over $35K	Democrat	Western	Same	Not Better
+89	35-54	Male	Over $35K	Democrat	Southeastern	Same	Better
+90	--	Female	Under $20K	Democrat	Western	Worse	Not Better
+91	Under 35	Female	Under $20K	Republican	Northeastern	Better	Not Better
+92	35-54	Male	Over $35K	Democrat	Northeastern	Worse	Not Better
+93	35-54	Female	Over $35K	Democrat	Western	Same	Not Better
+94	35-54	Male	20-35$K	Independent	Southeastern	Same	Not Better
+95	35-54	Male	--	Independent	Southeastern	Worse	Not Better
+96	55 and over	Female	Under $20K	Democrat	Western	Same	Not Better
+97	35-54	Male	20-35$K	Independent	Southeastern	Same	Not Better
+98	35-54	Male	Under $20K	Republican	Northeastern	Same	--
+99	35-54	Male	20-35$K	Independent	Northeastern	Same	Not Better
+100	35-54	Female	20-35$K	Republican	Northeastern	Better	Not Better
+101	55 and over	Male	Over $35K	Democrat	Southeastern	Same	Not Better
+102	Under 35	Female	20-35$K	Democrat	Western	Worse	Better
+103	55 and over	Male	20-35$K	Democrat	Western	Worse	Not Better
+104	Under 35	Female	20-35$K	Republican	Southeastern	Worse	Not Better
+105	55 and over	Female	Under $20K	Democrat	Western	Same	--
+106	Under 35	Female	20-35$K	Republican	Southeastern	Better	Better
+107	35-54	Female	20-35$K	Independent	Southeastern	Worse	Not Better
+108	Under 35	Male	20-35$K	Democrat	Northeastern	Worse	Better
+109	55 and over	Female	20-35$K	Independent	Northeastern	Same	Not Better
+110	55 and over	Female	20-35$K	Democrat	Western	Worse	Not Better
+111	55 and over	Male	20-35$K	Independent	Southeastern	Worse	Better
+112	55 and over	Female	Over $35K	Democrat	Northeastern	Same	Not Better
+113	Under 35	Male	Under $20K	Republican	Northeastern	Better	Better
+114	55 and over	Male	20-35$K	Independent	Northeastern	Worse	Not Better
+115	55 and over	Female	20-35$K	Democrat	Southeastern	Better	Not Better
+116	Under 35	Female	Under $20K	--	Southeastern	Worse	Not Better
+117	35-54	Male	Over $35K	Democrat	Southeastern	Worse	Better
+118	55 and over	Male	20-35$K	Republican	Western	Better	Better
+119	55 and over	Male	20-35$K	Independent	Southeastern	Better	Better
+120	Under 35	Female	20-35$K	Republican	Northeastern	Better	Better
+121	55 and over	Male	Over $35K	Democrat	Southeastern	Same	Not Better
+122	55 and over	Female	Under $20K	Democrat	Northeastern	Worse	Not Better
+123	Under 35	Female	Over $35K	Democrat	Western	Better	--
+124	Under 35	Female	20-35$K	Democrat	Northeastern	Better	Better
+125	55 and over	Female	20-35$K	Democrat	Southeastern	Same	--
+126	Under 35	Female	Under $20K	Republican	Southeastern	Better	Better
+127	55 and over	Female	--	Democrat	Western	Worse	--
+128	35-54	Female	20-35$K	Democrat	Northeastern	Better	--
+129	55 and over	Male	20-35$K	Republican	Southeastern	Same	Better
+130	55 and over	Female	--	Republican	Southeastern	Same	--
+131	Under 35	Female	20-35$K	Democrat	Southeastern	Worse	Not Better
+132	35-54	Male	Over $35K	Democrat	Western	Worse	Not Better
+133	55 and over	Male	20-35$K	Democrat	Northeastern	Same	Not Better
+134	Under 35	Male	Over $35K	Republican	Southeastern	Better	Not Better
+135	35-54	Male	20-35$K	Independent	Western	Same	--
+136	35-54	Male	Over $35K	Republican	Northeastern	Better	Better
+137	Under 35	Male	Under $20K	Republican	Western	Better	Better
+138	35-54	Male	Over $35K	Republican	Western	Same	--
+139	35-54	Male	Over $35K	Democrat	Southeastern	Same	--
+140	35-54	Male	Over $35K	Republican	Southeastern	Better	Better
+141	35-54	Male	20-35$K	Republican	Western	Better	Better
+142	Under 35	Female	Over $35K	Democrat	Northeastern	Better	Better
+143	35-54	Male	20-35$K	Democrat	Western	Worse	Not Better
+144	Under 35	Male	Under $20K	Democrat	Southeastern	Better	Better
+145	35-54	Male	Over $35K	Republican	Southeastern	Same	Better
+146	55 and over	Female	Under $20K	Democrat	Western	Same	Not Better
+147	55 and over	Male	20-35$K	Republican	Western	Worse	Not Better
+148	35-54	Male	20-35$K	Republican	Western	Worse	Better
+149	55 and over	Male	20-35$K	Republican	Southeastern	Better	Not Better
+150	35-54	Male	Over $35K	Republican	Northeastern	Same	Better
+151	Under 35	Female	--	Democrat	Western	Better	--
+152	Under 35	Female	20-35$K	Independent	Western	Worse	Not Better
+153	35-54	Female	Under $20K	Democrat	Western	Better	Not Better
+154	35-54	Female	Under $20K	Democrat	Southeastern	Worse	Not Better
+155	35-54	Female	Under $20K	Independent	Northeastern	Same	Not Better
+156	35-54	Male	20-35$K	Independent	Northeastern	Worse	Not Better
+157	Under 35	Female	Over $35K	Republican	Northeastern	Worse	Not Better
+158	35-54	Male	Over $35K	Republican	Southeastern	Better	--
+159	55 and over	Male	Over $35K	Democrat	Western	Same	Not Better
+160	55 and over	Female	20-35$K	Republican	Northeastern	Worse	Better
+161	Under 35	Male	Under $20K	Democrat	Southeastern	Same	Better
+162	35-54	Female	Over $35K	Independent	Southeastern	Better	Not Better
+163	Under 35	Male	20-35$K	Independent	Western	Same	Not Better
+164	Under 35	Male	Over $35K	Republican	Northeastern	Same	Not Better
+165	55 and over	Male	20-35$K	Democrat	Southeastern	Same	Not Better
+166	Under 35	Female	Over $35K	Republican	Northeastern	Better	Not Better
+167	35-54	Male	Over $35K	Independent	Southeastern	Same	Not Better
+168	55 and over	Female	20-35$K	Independent	Northeastern	Better	Not Better
+169	55 and over	Female	Under $20K	Republican	Northeastern	Worse	Not Better
+170	Under 35	Female	20-35$K	Independent	Western	Same	Not Better
+171	Under 35	Female	20-35$K	Republican	Northeastern	Better	--
+172	Under 35	Female	Under $20K	Independent	Southeastern	Same	Better
+173	35-54	Female	Under $20K	Democrat	Northeastern	Worse	Not Better
+174	Under 35	Male	20-35$K	Independent	Northeastern	Same	Not Better
+175	Under 35	Male	Over $35K	Democrat	Western	Better	Not Better
+176	35-54	Male	--	Independent	Southeastern	Same	Not Better
+177	55 and over	Male	--	Democrat	Southeastern	Same	Better
+178	35-54	Male	20-35$K	Democrat	Northeastern	Better	Not Better
+179	Under 35	Male	20-35$K	Independent	Western	Worse	Not Better
+180	Under 35	Male	Over $35K	Republican	Northeastern	Same	Better
+181	35-54	Male	Over $35K	Republican	Northeastern	Better	Not Better
+182	35-54	Male	Over $35K	Democrat	Southeastern	Better	Not Better
+183	Under 35	Female	Under $20K	Democrat	Southeastern	Better	Better
+184	Under 35	Female	20-35$K	Republican	Southeastern	Better	Not Better
+185	55 and over	Male	Over $35K	Independent	Southeastern	Worse	Not Better
+186	Under 35	Male	Under $20K	Republican	Western	Better	Not Better
+187	35-54	Female	Over $35K	--	Northeastern	Better	Not Better
+188	35-54	Male	Under $20K	Independent	Southeastern	Same	Better
+189	55 and over	Male	20-35$K	Republican	Northeastern	Same	Not Better
+190	35-54	Male	Under $20K	Democrat	Western	Worse	Not Better
+191	Under 35	Female	Under $20K	Democrat	Western	Same	Not Better
+192	55 and over	Male	Under $20K	Democrat	Northeastern	Worse	Better
+193	55 and over	Female	--	Republican	Northeastern	Same	--
+194	Under 35	Female	Under $20K	Independent	Northeastern	Better	Not Better
+195	Under 35	Female	20-35$K	Democrat	Southeastern	Better	Better
+196	Under 35	Male	20-35$K	Republican	Northeastern	Better	Not Better
+197	Under 35	Female	Under $20K	Republican	Western	Worse	Not Better
+198	35-54	Male	20-35$K	Republican	Southeastern	Better	Not Better
+199	Under 35	Male	Over $35K	Republican	Northeastern	Same	Better
+200	Under 35	Female	Under $20K	Democrat	Western	Worse	Not Better
+201	35-54	Male	20-35$K	Democrat	Western	Better	Better
+202	55 and over	Male	20-35$K	Republican	Western	Same	Not Better
+203	35-54	Female	--	Democrat	Southeastern	Better	--
+204	Under 35	Female	Under $20K	Independent	Southeastern	Better	--
+205	Under 35	Male	Over $35K	Republican	Northeastern	--	Better
+206	Under 35	Female	20-35$K	Republican	Southeastern	Better	Better
+207	55 and over	Female	Under $20K	Republican	Northeastern	Same	Not Better
+208	55 and over	Male	Over $35K	Republican	Southeastern	Worse	Better
+209	35-54	Male	Over $35K	Republican	Northeastern	Same	Not Better

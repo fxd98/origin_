@@ -1,0 +1,143 @@
+{"nodes":[
+  {
+    "name": "Biomass"
+  },
+  {
+    "name": "Coal"
+  },
+  {
+    "name": "Commercial"
+  },
+  {
+    "name": "Conventional Hydroelectric Power "
+  },
+  {
+    "name": "Electric Power"
+  },
+  {
+    "name": "Electricity Net Imports"
+  },
+  {
+    "name": "Fossil Fuel"
+  },
+  {
+    "name": "Geothermal"
+  },
+  {
+    "name": "Industrial"
+  },
+  {
+    "name": "Natrual gas"
+  },
+  {
+    "name": "Nuclear"
+  },
+  {
+    "name": "Petroleum"
+  },
+  {
+    "name": "Consumption"
+  },
+  {
+    "name": "Renewable Energy"
+  },
+  {
+    "name": "Residential"
+  },
+  {
+    "name": "Solar"
+  },
+  {
+    "name": "Transportation"
+  },
+  {
+    "name": "Wind"
+  }
+],
+"links":[
+  {
+    "source": 6,
+    "target": 11,
+    "value": 36945.3
+  },
+  {
+    "source": 6,
+    "target": 9,
+    "value": 30971.6
+  },
+  {
+    "source": 6,
+    "target": 1,
+    "value": 13232.7
+  },
+  {
+    "source": 13,
+    "target": 3,
+    "value": 2687.7
+  },
+  {
+    "source": 13,
+    "target": 7,
+    "value": 217.6
+  },
+  {
+    "source": 13,
+    "target": 15,
+    "value": 951.4
+  },
+  {
+    "source": 13,
+    "target": 17,
+    "value": 2533.1
+  },
+  {
+    "source": 13,
+    "target": "0",
+    "value": 5127.8
+  },
+  {
+    "source": 12,
+    "target": 6,
+    "value": 81149.6
+  },
+  {
+    "source": 12,
+    "target": 13,
+    "value": 11517.6
+  },
+  {
+    "source": 12,
+    "target": 5,
+    "value": 151.7
+  },
+  {
+    "source": 12,
+    "target": 10,
+    "value": 8441.2
+  },
+  {
+    "source": 14,
+    "target": 12,
+    "value": 6875.861
+  },
+  {
+    "source": 2,
+    "target": 12,
+    "value": 4744.964
+  },
+  {
+    "source": 8,
+    "target": 12,
+    "value": 23020.8
+  },
+  {
+    "source": 16,
+    "target": 12,
+    "value": 28312.6
+  },
+  {
+    "source": 4,
+    "target": 12,
+    "value": 38280.3
+  }
+]}
